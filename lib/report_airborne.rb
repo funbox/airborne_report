@@ -1,4 +1,6 @@
 require "report_airborne/version"
+require 'multi_json'
+require 'report_airborne/rspec_json_formatter'
 
 module ReportAirborne
   # Your code goes here...
@@ -11,6 +13,7 @@ module Airborne
     def make_request(*args)
       response = origin_make_request(*args)
       request = response.request
+      ress =  File.read('report.json')
       res = {
         request: {
           method: request.method,
@@ -19,10 +22,11 @@ module Airborne
         },
         response: {
           headers: response.headers,
-          body: response.to_s
+          body: MultiJson.load(response)
         }
       }
-      puts "res: #{res}"
+      res = MultiJson.dump(MultiJson.load(ress).push(res))
+      File.open("report.json", 'w') { |file| file.write(res) }
       response
     end
   end
