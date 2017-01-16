@@ -10,10 +10,19 @@ module Airborne
 
     def make_request(*args)
       response = origin_make_request(*args)
-      puts "request: #{response.request.inspect}"
-      puts "request.headers: #{response.request.headers}"
-      puts "response: #{response}"
-      puts "response.headers: #{response.headers}"
+      request = response.request
+      res = {
+        request: {
+          method: request.method,
+          url: request.url,
+          headers: request.headers
+        },
+        response: {
+          headers: response.headers,
+          body: response.to_s
+        }
+      }
+      puts "res: #{res}"
       response
     end
   end
