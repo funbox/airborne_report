@@ -13,8 +13,38 @@ module Airborne
     def make_request(*args)
       response = origin_make_request(*args)
       request = response.request
-      ress =  File.read('report.json')
-      res = {
+
+      after_json = after_json(get_before_json, request, response)
+      File.open("report.json", 'w') do |file|
+        file.write(MultiJson.dump(after_json))
+      end
+      response
+    end
+
+    private
+
+    def get_before_json
+      MultiJson.load(File.read('report.json'))
+    end
+
+    def after_json(before_json, request, response)
+      before_case = before_case(before_json)
+      after_case = after_case(before_case, request, response)
+
+      before_json.pop
+      before_json.push(after_case)
+    end
+
+    def before_case(before_json)
+      before_json.last
+    end
+
+    def after_case(before_case, request, response)
+      before_case.merge(new_case(request, response))
+    end
+
+    def new_case(request, response)
+      {
         request: {
           method: request.method,
           url: request.url,
@@ -25,9 +55,6 @@ module Airborne
           body: MultiJson.load(response)
         }
       }
-      res = MultiJson.dump(MultiJson.load(ress).push(res))
-      File.open("report.json", 'w') { |file| file.write(res) }
-      response
     end
   end
 end
