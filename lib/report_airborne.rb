@@ -45,6 +45,7 @@ module Airborne
 
     def new_case(request, response)
       {
+        time: Time.now,
         request: {
           method: request.method,
           url: request.url,
