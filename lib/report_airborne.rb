@@ -39,7 +39,7 @@ module Airborne
           method: request.method,
           url: request.url,
           headers: request.headers,
-          body: MultiJson.load(request.args[:payload])
+          body: request.args
         },
         response: {
           headers: response.headers,
