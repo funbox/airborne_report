@@ -21,7 +21,7 @@ module Airborne
       end
       response
     rescue
-      after_json = get_before_json.merge(location => {})
+      after_json = get_before_json.merge(location => wasted_case(args, response))
       File.open("report.json", 'w') do |file|
         file.write(MultiJson.dump(after_json))
       end
@@ -54,6 +54,21 @@ module Airborne
         response: {
           headers: response.headers,
           body: MultiJson.load(response)
+        }
+      }
+    end
+
+    def wasted_case(args, response)
+      {
+        time: Time.now,
+        request: {
+          method: args[0],
+          url: get_url(args[1]),
+          headers: args[2][:headers],
+          body: args[2][:body]
+        },
+        response: {
+          body: response
         }
       }
     end
