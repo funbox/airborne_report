@@ -1,0 +1,18 @@
+!!! 5
+%html
+  %head
+    %title= "Your Website"
+  %body
+    - @after_json.each do |example|
+      %label{class: "collapse #{example.last['status']}", for: "_#{@i=@i+1}"}
+        #{example.last['full_description']}
+      %input{id: "_#{@i}", type: 'checkbox'}
+      %div
+        %div
+          path: #{example.first}
+        %div
+          time: #{example.last['time']}
+        %pre
+          request: #{example.last['request']}
+        %pre
+          response: #{example.last['response']}
