@@ -5,7 +5,7 @@ module ReportAirborne
     RSpec::Core::Formatters.register self, :start, :stop
 
     def start(notification)
-      File.open("report.json", 'w') { |file| file.write('[]') }
+      File.open("report.json", 'w') { |file| file.write('{}') }
     end
 
     def stop(notification)
@@ -23,10 +23,15 @@ module ReportAirborne
     end
 
     def get_after_json(before_json, notification)
-      after_json = []
+      after_json = {}
 
-      before_json.size.times do |i|
-        after_json.push(new_case(notification.examples[i]).merge(before_json[i]))
+      notification.examples.map do |example|
+        location = example.metadata[:location]
+        if before_json[location]
+          after_json[location] = new_case(example).merge(before_json[location])
+        else
+          after_json[location] = new_case(example)
+        end
       end
 
       after_json

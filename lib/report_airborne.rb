@@ -21,7 +21,7 @@ module Airborne
       end
       response
     rescue
-      after_json = get_before_json.push({})
+      after_json = get_before_json.merge(location => {})
       File.open("report.json", 'w') do |file|
         file.write(MultiJson.dump(after_json))
       end
@@ -35,7 +35,11 @@ module Airborne
     end
 
     def get_after_json(before_json, request, response)
-      before_json.push(new_case(request, response))
+      before_json.merge(location => new_case(request, response))
+    end
+
+    def location
+      self.inspect.to_s.split("(").last.split(")").first
     end
 
     def new_case(request, response)
