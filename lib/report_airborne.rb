@@ -20,6 +20,12 @@ module Airborne
         file.write(MultiJson.dump(after_json))
       end
       response
+    rescue
+      after_json = get_before_json.push({})
+      File.open("report.json", 'w') do |file|
+        file.write(MultiJson.dump(after_json))
+      end
+      response
     end
 
     private
