@@ -9,11 +9,34 @@
         #{example.last['full_description']}
       %input{id: "_#{@i}", type: 'checkbox'}
       %div
-        %div
-          path: #{example.first}
-        %div
-          time: #{example.last['time']}
-        %pre
-          request: #{example.last['request']}
-        %pre
-          response: #{example.last['response']}
+        %div{class: 'section'}
+          %div
+            %b path:
+            #{example.first}
+          %div
+            %b time:
+            #{example.last['time']}
+        - if example.last['request']
+          %div{class: 'section'}
+            %div
+              %b request.method:
+              #{example.last['request']['method']}
+            %div
+              %b request.url:
+              #{example.last['request']['url']}
+            %div
+              %b request.headers:
+              #{example.last['request']['headers']}
+            %div
+              %b request.body:
+              #{example.last['request']['body']}
+          %div{class: 'section'}
+            %div
+              %b response.headers:
+              #{example.last['response']['headers']}
+            %div
+              %b response.body:
+              %xmp
+                #{example.last['response']['body'].inspect}
+        - else
+          В ходе выполнения теста не было сделанно ни одного запроса

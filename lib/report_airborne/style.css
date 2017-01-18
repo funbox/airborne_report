@@ -1,15 +1,19 @@
+label {
+    margin: 10px;
+}
+
 .passed {
-    color: #00ff00;
+    color: green;
 }
 
 .failed {
-    color: #ff0000;
+    color: red;
 }
 
 .collapse{
     cursor: pointer;
     display: block;
-    background: #cdf;
+    background: white;
 }
 .collapse + input{
     display: none; /* hide the checkboxes */
@@ -19,4 +23,8 @@
 }
 .collapse + input:checked + div{
     display:block;
+}
+
+.section {
+    padding-top: 10px;
 }
