@@ -16,7 +16,11 @@ module ReportAirborne
         file.write(after_json)
       end
 
-      after_json = MultiJson.load(after_json)
+      craft_json
+    end
+
+    def craft_json
+      after_json = MultiJson.load(File.read('report.json'))
       contents = File.read(File.expand_path('../report.html.haml', __FILE__))
       html = "<style>\n#{File.read(File.expand_path('../style.css', __FILE__))}\n</style>"
       i = 0
