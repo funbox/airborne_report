@@ -2,6 +2,7 @@
 %html
   %head
     %title= "Your Website"
+    %meta{charset: "utf-8"}
   %body
     - @after_json.each do |example|
       %label{class: "collapse #{example.last['status']}", for: "_#{@i=@i+1}"}
