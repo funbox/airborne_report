@@ -5,38 +5,38 @@
     %meta{charset: "utf-8"}
   %body
     - @after_json.each do |example|
-      %label{class: "collapse #{example.last['status']}", for: "_#{@i=@i+1}"}
-        #{example.last['full_description']}
-      %input{id: "_#{@i}", type: 'checkbox'}
-      %div
-        %div{class: 'section'}
-          %div
-            %b path:
-            #{example.first}
-          %div
-            %b time:
-            #{example.last['time']}
-        - if example.last['request']
+      %details
+        %summary{class: "collapse #{example.last['status']}"}
+          = example.last['full_description']
+        %div
           %div{class: 'section'}
             %div
-              %b request.method:
-              #{example.last['request']['method']}
+              %b path:
+              #{example.first}
             %div
-              %b request.url:
-              #{example.last['request']['url']}
-            %div
-              %b request.headers:
-              #{example.last['request']['headers']}
-            %div
-              %b request.body:
-              #{example.last['request']['body']}
-          %div{class: 'section'}
-            %div
-              %b response.headers:
-              #{example.last['response']['headers']}
-            %div
-              %b response.body:
-              %xmp
-                #{example.last['response']['body'].inspect}
-        - else
-          В ходе выполнения теста не было сделанно ни одного запроса
+              %b time:
+              #{example.last['time']}
+          - if example.last['request']
+            %div{class: 'section'}
+              %div
+                %b request.method:
+                #{example.last['request']['method']}
+              %div
+                %b request.url:
+                #{example.last['request']['url']}
+              %div
+                %b request.headers:
+                #{example.last['request']['headers']}
+              %div
+                %b request.body:
+                #{example.last['request']['body']}
+            %div{class: 'section'}
+              %div
+                %b response.headers:
+                #{example.last['response']['headers']}
+              %div
+                %b response.body:
+                %xmp
+                  #{example.last['response']['body'].inspect}
+          - else
+            В ходе выполнения теста не было сделанно ни одного запроса
