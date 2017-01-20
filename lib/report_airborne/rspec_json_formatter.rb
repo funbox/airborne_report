@@ -27,7 +27,7 @@ module ReportAirborne
     def craft_html
       info = MultiJson.load(File.read('report.json'))
       contents = File.read(File.expand_path('../report.html.haml', __FILE__))
-      html = "<style>\n#{File.read(File.expand_path('../style.css', __FILE__))}\n</style>"
+      html = "<style>\n#{File.read(File.expand_path('../style.css', __FILE__))}\n</style>\n"
       i = 0
       html = html + Haml::Engine.new(contents).render(Object.new, {
         :@tests => info["tests"],
