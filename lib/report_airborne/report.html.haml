@@ -6,14 +6,17 @@
   %body
     %div
       %b
+        all:
+        = @statuses["all"]
+      %b{class: "passed"}
         passed:
-      = @statuses["passed"]
-      %b
+        = @statuses["passed"]
+      %b{class: "failed"}
         failed:
-      = @statuses["failed"]
-      %b
+        = @statuses["failed"]
+      %b{class: "pending"}
         pending:
-      = @statuses["pending"]
+        = @statuses["pending"]
     - @tests.each do |example|
       %details
         %summary{class: "collapse #{example.last['status']}"}

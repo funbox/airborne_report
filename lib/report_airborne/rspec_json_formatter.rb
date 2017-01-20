@@ -49,6 +49,7 @@ module ReportAirborne
       after_json = {}
 
       statuses = {
+        "all" => 0,
         "passed" => 0,
         "failed" => 0,
         "pending" => 0
@@ -62,6 +63,7 @@ module ReportAirborne
           after_json[location] = new_case(example)
         end
 
+        statuses["all"] += 1
         statuses[example.execution_result.status.to_s] += 1
       end
 
