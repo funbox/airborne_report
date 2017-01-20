@@ -5,18 +5,27 @@ module ReportAirborne
   class RspecJsonFormatter < RSpec::Core::Formatters::BaseFormatter
     RSpec::Core::Formatters.register self, :start, :stop
 
+    def start(notification)
+      File.open("report.json", 'w') { |file| file.write(MultiJson.dump(
+        {
+          "statuses" => {},
+          "tests" => {}
+        }
+      )) }
+    end
+
     def stop(notification)
-      after_json = MultiJson.dump(get_after_json(get_before_json, notification))
+      after_json = MultiJson.dump(get_after_json(get_before_json["tests"], notification))
 
       File.open("report.json", 'w') do |file|
         file.write(after_json)
       end
 
-      craft_json
+      craft_html
     end
 
-    def craft_json
-      after_json = MultiJson.load(File.read('report.json'))
+    def craft_html
+      after_json = MultiJson.load(File.read('report.json'))["tests"]
       contents = File.read(File.expand_path('../report.html.haml', __FILE__))
       html = "<style>\n#{File.read(File.expand_path('../style.css', __FILE__))}\n</style>"
       i = 0
@@ -35,6 +44,12 @@ module ReportAirborne
     def get_after_json(before_json, notification)
       after_json = {}
 
+      statuses = {
+        "passed" => 0,
+        "failed" => 0,
+        "pending" => 0
+      }
+
       notification.examples.map do |example|
         location = example.metadata[:location]
         if before_json[location]
@@ -42,9 +57,14 @@ module ReportAirborne
         else
           after_json[location] = new_case(example)
         end
+
+        statuses[example.execution_result.status.to_s] += 1
       end
 
-      after_json
+      {
+        "statuses" => statuses,
+        "tests" => after_json
+      }
     end
 
     def new_case(example)

@@ -14,16 +14,18 @@ module Airborne
       response = origin_make_request(*args)
       request = response.request
 
-      after_json = get_after_json(get_before_json, request, response)
+      before_json = get_before_json
+      before_json['tests'] = get_after_json(before_json['tests'], request, response)
 
       File.open("report.json", 'w') do |file|
-        file.write(MultiJson.dump(after_json))
+        file.write(MultiJson.dump(before_json))
       end
       response
     rescue
-      after_json = get_before_json.merge(location => wasted_case(args, response))
+      before_json = get_before_json
+      before_json['tests'] = before_json['tests'].merge(location => wasted_case(args, response))
       File.open("report.json", 'w') do |file|
-        file.write(MultiJson.dump(after_json))
+        file.write(MultiJson.dump(before_json))
       end
       response
     end
