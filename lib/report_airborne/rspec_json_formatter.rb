@@ -5,19 +5,19 @@ module ReportAirborne
   class RspecJsonFormatter < RSpec::Core::Formatters::BaseFormatter
     RSpec::Core::Formatters.register self, :start, :stop
 
-    def start(notification)
-      File.open("report.json", 'w') { |file| file.write(MultiJson.dump(
-        {
-          "statuses" => {},
-          "tests" => {}
-        }
-      )) }
+    def start(_notification)
+      File.open('report.json', 'w') do |file|
+        file.write(MultiJson.dump(
+                     'statuses' => {},
+                     'tests' => {}
+        ))
+      end
     end
 
     def stop(notification)
-      after_json = MultiJson.dump(get_after_json(get_before_json["tests"], notification))
+      after_json = MultiJson.dump(get_after_json(get_before_json['tests'], notification))
 
-      File.open("report.json", 'w') do |file|
+      File.open('report.json', 'w') do |file|
         file.write(after_json)
       end
 
@@ -29,12 +29,13 @@ module ReportAirborne
       contents = File.read(File.expand_path('../report.html.haml', __FILE__))
       html = "<style>\n#{File.read(File.expand_path('../style.css', __FILE__))}\n</style>\n"
       i = 0
-      html = html + Haml::Engine.new(contents).render(Object.new, {
-        :@tests => info["tests"],
-        :@statuses => info["statuses"],
+      html += Haml::Engine.new(contents).render(
+        Object.new,
+        :@tests => info['tests'],
+        :@statuses => info['statuses'],
         :@i => i
-      })
-      File.open("report.html", 'w') do |file|
+      )
+      File.open('report.html', 'w') do |file|
         file.write(html)
       end
     end
@@ -49,10 +50,10 @@ module ReportAirborne
       after_json = {}
 
       statuses = {
-        "all" => 0,
-        "passed" => 0,
-        "failed" => 0,
-        "pending" => 0
+        'all' => 0,
+        'passed' => 0,
+        'failed' => 0,
+        'pending' => 0
       }
 
       notification.examples.map do |example|
@@ -63,20 +64,20 @@ module ReportAirborne
           after_json[location] = new_case(example)
         end
 
-        statuses["all"] += 1
+        statuses['all'] += 1
         statuses[example.execution_result.status.to_s] += 1
       end
 
       {
-        "statuses" => statuses,
-        "tests" => after_json
+        'statuses' => statuses,
+        'tests' => after_json
       }
     end
 
     def new_case(example)
       {
-        "full_description" => example.full_description,
-        "status" => example.execution_result.status
+        'full_description' => example.full_description,
+        'status' => example.execution_result.status
       }
     end
   end

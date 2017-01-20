@@ -1,4 +1,4 @@
-require "report_airborne/version"
+require 'report_airborne/version'
 require 'multi_json'
 require 'report_airborne/rspec_json_formatter'
 
@@ -8,7 +8,7 @@ end
 
 module Airborne
   module RestClientRequester
-    alias_method :origin_make_request, :make_request
+    alias origin_make_request make_request
 
     def make_request(*args)
       response = origin_make_request(*args)
@@ -17,14 +17,14 @@ module Airborne
       before_json = get_before_json
       before_json['tests'] = get_after_json(before_json['tests'], request, response)
 
-      File.open("report.json", 'w') do |file|
+      File.open('report.json', 'w') do |file|
         file.write(MultiJson.dump(before_json))
       end
       response
     rescue
       before_json = get_before_json
       before_json['tests'] = before_json['tests'].merge(location => wasted_case(args, response))
-      File.open("report.json", 'w') do |file|
+      File.open('report.json', 'w') do |file|
         file.write(MultiJson.dump(before_json))
       end
       response
@@ -41,36 +41,36 @@ module Airborne
     end
 
     def location
-      self.inspect.to_s.split("(").last.split(")").first
+      inspect.to_s.split('(').last.split(')').first
     end
 
     def new_case(request, response)
       {
-        "time" => Time.now,
-        "request" => {
-          "method" => request.method,
-          "url" => request.url,
-          "headers" => request.headers,
-          "body" => request.args
+        'time' => Time.now,
+        'request' => {
+          'method' => request.method,
+          'url' => request.url,
+          'headers' => request.headers,
+          'body' => request.args
         },
-        "response" => {
-          "headers" => response.headers,
-          "body" => MultiJson.load(response)
+        'response' => {
+          'headers' => response.headers,
+          'body' => MultiJson.load(response)
         }
       }
     end
 
     def wasted_case(args, response)
       {
-        "time" => Time.now,
-        "request" => {
-          "method" => args[0],
-          "url" => get_url(args[1]),
-          "headers" => args[2][:headers],
-          "body" => args[2][:body]
+        'time' => Time.now,
+        'request' => {
+          'method' => args[0],
+          'url' => get_url(args[1]),
+          'headers' => args[2][:headers],
+          'body' => args[2][:body]
         },
-        "response" => {
-          "body" => response
+        'response' => {
+          'body' => response
         }
       }
     end
