@@ -13,38 +13,49 @@ module Airborne
     def make_request(*args)
       response = origin_make_request(*args)
       request = response.request
-
-      before_json = get_before_json
-      before_json['tests'] = get_after_json(before_json['tests'], request, response)
-
-      File.open('report.json', 'w') do |file|
-        file.write(MultiJson.dump(before_json))
-      end
+      good_case(request, response)
       response
     rescue
-      before_json = get_before_json
-      before_json['tests'] = before_json['tests'].merge(location => wasted_case(args, response))
-      File.open('report.json', 'w') do |file|
-        file.write(MultiJson.dump(before_json))
-      end
+      bad_case(args, response)
       response
     end
 
     private
 
+    def good_case(request, response)
+      before_json = get_before_json
+      after_json = {
+        'tests' => get_after_tests(before_json['tests'], request, response)
+      }
+
+      File.open('report.json', 'w') do |file|
+        file.write(MultiJson.dump(after_json))
+      end
+    end
+
+    def bad_case(args, response)
+      before_json = get_before_json
+      after_json = {
+        'tests' => before_json['tests'].merge(location => wasted_test(args, response))
+      }
+      File.open('report.json', 'w') do |file|
+        file.write(MultiJson.dump(after_json))
+      end
+    end
+
     def get_before_json
       MultiJson.load(File.read('report.json'))
     end
 
-    def get_after_json(before_json, request, response)
-      before_json.merge(location => new_case(request, response))
+    def get_after_tests(before_tests, request, response)
+      before_tests.merge(location => new_test(request, response))
     end
 
     def location
       inspect.to_s.split('(').last.split(')').first
     end
 
-    def new_case(request, response)
+    def new_test(request, response)
       {
         'time' => Time.now,
         'request' => {
@@ -60,7 +71,7 @@ module Airborne
       }
     end
 
-    def wasted_case(args, response)
+    def wasted_test(args, response)
       {
         'time' => Time.now,
         'request' => {
