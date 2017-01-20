@@ -5,10 +5,6 @@ module ReportAirborne
   class RspecJsonFormatter < RSpec::Core::Formatters::BaseFormatter
     RSpec::Core::Formatters.register self, :start, :stop
 
-    def start(notification)
-      File.open("report.json", 'w') { |file| file.write('{}') }
-    end
-
     def stop(notification)
       after_json = MultiJson.dump(get_after_json(get_before_json, notification))
 
@@ -53,8 +49,8 @@ module ReportAirborne
 
     def new_case(example)
       {
-        full_description: example.full_description,
-        status: example.execution_result.status
+        "full_description" => example.full_description,
+        "status" => example.execution_result.status
       }
     end
   end

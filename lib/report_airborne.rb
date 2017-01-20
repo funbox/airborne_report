@@ -44,31 +44,31 @@ module Airborne
 
     def new_case(request, response)
       {
-        time: Time.now,
-        request: {
-          method: request.method,
-          url: request.url,
-          headers: request.headers,
-          body: request.args
+        "time" => Time.now,
+        "request" => {
+          "method" => request.method,
+          "url" => request.url,
+          "headers" => request.headers,
+          "body" => request.args
         },
-        response: {
-          headers: response.headers,
-          body: MultiJson.load(response)
+        "response" => {
+          "headers" => response.headers,
+          "body" => MultiJson.load(response)
         }
       }
     end
 
     def wasted_case(args, response)
       {
-        time: Time.now,
-        request: {
-          method: args[0],
-          url: get_url(args[1]),
-          headers: args[2][:headers],
-          body: args[2][:body]
+        "time" => Time.now,
+        "request" => {
+          "method" => args[0],
+          "url" => get_url(args[1]),
+          "headers" => args[2][:headers],
+          "body" => args[2][:body]
         },
-        response: {
-          body: response
+        "response" => {
+          "body" => response
         }
       }
     end
