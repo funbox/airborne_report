@@ -12,13 +12,18 @@ module Airborne
 
     def make_request(*args)
       response = origin_make_request(*args)
-      request = response.request
-      ReportAirborne::Message.full(request, response).save(location)
+      if response.is_a?(RestClient::Response)
+        request = response.request
+        ReportAirborne::Message.full(request, response).save(location)
+      else
+        url = get_url(args[1])
+        ReportAirborne::Message.wasted(args, response, url).save(location)
+      end
       response
-    rescue
+    rescue SocketError => error
       url = get_url(args[1])
       ReportAirborne::Message.wasted(args, response, url).save(location)
-      response
+      error
     end
 
     private
