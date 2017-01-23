@@ -23,13 +23,13 @@
           = example.last['full_description']
         %div
           %div{class: 'section'}
+          - if example.last['request'] && example.last['response']['body']
             %div
               %b path:
               = example.first
             %div
               %b time:
               = example.last['time']
-          - if example.last['request'] && example.last['response']['body']
             %div{class: 'section'}
               %div
                 %b request.method:
@@ -52,6 +52,9 @@
                 %xmp
                   = example.last['response']['body']
           - elsif example.last['request']
+            %div
+              %b path:
+              = example.first
             %div{class: 'section'}
               %div
                 %b request.method:
@@ -67,6 +70,9 @@
                 = example.last['request']['body']
             %div{class: 'section'}
               %div
-                Запрос завершился неудачей
+                Request failed
           - else
-            В ходе выполнения теста не было сделанно ни одного запроса
+            %div
+              %b path:
+              = example.first
+            Test failed
