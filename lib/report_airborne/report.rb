@@ -1,11 +1,5 @@
 module ReportAirborne
   class Report
-    def self.blank
-      {
-        'tests' => {}
-      }
-    end
-
     def initialize(before_json, notification)
       after_json = {}
 
@@ -31,6 +25,12 @@ module ReportAirborne
       @json = {
         'statuses' => statuses,
         'tests' => after_json
+      }
+    end
+
+    def self.blank
+      {
+        'tests' => {}
       }
     end
 
