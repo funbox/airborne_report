@@ -42,6 +42,5 @@ module Airborne
     def location
       inspect.to_s.split('(').last.split(')').first
     end
-
   end
 end
