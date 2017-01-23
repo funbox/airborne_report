@@ -13,11 +13,11 @@ module Airborne
     def make_request(*args)
       response = origin_make_request(*args)
       request = response.request
-      ReportAirborne::Message.full(location, request, response).save
+      ReportAirborne::Message.full(request, response).save(location)
       response
     rescue
       url = get_url(args[1])
-      ReportAirborne::Message.wasted(location, args, response, url).save
+      ReportAirborne::Message.wasted(args, response, url).save(location)
       response
     end
 
