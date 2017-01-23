@@ -20,8 +20,8 @@ module ReportAirborne
     end
 
     def craft_html(report)
-      contents = File.read(File.expand_path('../report.html.haml', __FILE__))
-      html = "<style>\n#{File.read(File.expand_path('../style.css', __FILE__))}\n</style>\n"
+      contents = File.read(File.expand_path('../view/report.html.haml', __FILE__))
+      html = "<style>\n#{File.read(File.expand_path('../view/style.css', __FILE__))}\n</style>\n"
       i = 0
       html += Haml::Engine.new(contents).render(
         Object.new,
