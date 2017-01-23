@@ -1,19 +1,21 @@
 class JSONFile
   def push(key, value)
-    reincarnation_json(
+    save(
       {
-        'tests' => before_json.merge(key => value)
+        'tests' => tests.merge(key => value)
       }
     )
   end
 
-  def before_json
+  private
+
+  def tests
     MultiJson.load(File.read('report.json'))['tests']
   end
 
-  def reincarnation_json(after_json)
+  def save(json)
     File.open('report.json', 'w') do |file|
-      file.write(MultiJson.dump(after_json))
+      file.write(MultiJson.dump(json))
     end
   end
 end
