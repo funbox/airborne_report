@@ -13,10 +13,11 @@ module Airborne
     def make_request(*args)
       response = origin_make_request(*args)
       request = response.request
-      ReportAirborne::Message.good_case(location, request, response)
+      ReportAirborne::Message.full(location, request, response).save
       response
     rescue
-      ReportAirborne::Message.bad_case(location, args, response, get_url(args[1]))
+      url = get_url(args[1])
+      ReportAirborne::Message.wasted(location, args, response, url).save
       response
     end
 

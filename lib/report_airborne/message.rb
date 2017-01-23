@@ -2,24 +2,27 @@ require 'multi_json'
 
 module ReportAirborne
   class Message
-    def self.good_case(location, request, response)
-      before_json = get_before_json
-      after_json = {
-        'tests' => get_after_tests(location, before_json['tests'], request, response)
-      }
-
-      File.open('report.json', 'w') do |file|
-        file.write(MultiJson.dump(after_json))
-      end
+    def initialize(after_json)
+      @after_json = after_json
     end
 
-    def self.bad_case(location, args, response, url)
+    def self.full(location, request, response)
       before_json = get_before_json
-      after_json = {
+      new({
+        'tests' => get_after_tests(location, before_json['tests'], request, response)
+      })
+    end
+
+    def self.wasted(location, args, response, url)
+      before_json = get_before_json
+      new({
         'tests' => before_json['tests'].merge(location => wasted_test(args, response, url))
-      }
+      })
+    end
+
+    def save
       File.open('report.json', 'w') do |file|
-        file.write(MultiJson.dump(after_json))
+        file.write(MultiJson.dump(@after_json))
       end
     end
 
