@@ -1,6 +1,6 @@
 require 'multi_json'
 
-class JSONFile
+class JsonFile
   def self.push(key, value)
     save(
       {

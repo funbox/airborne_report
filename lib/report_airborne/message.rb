@@ -39,7 +39,7 @@ module ReportAirborne
     end
 
     def save(location)
-      JSONFile.push(location, @message)
+      JsonFile.push(location, @message)
     end
   end
 end

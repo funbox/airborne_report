@@ -8,12 +8,12 @@ module ReportAirborne
     RSpec::Core::Formatters.register self, :start, :stop
 
     def start(_notification)
-      JSONFile.save(Report.blank)
+      JsonFile.save(Report.blank)
     end
 
     def stop(notification)
-      tests = JSONFile.tests
-      JSONFile.destroy
+      tests = JsonFile.tests
+      JsonFile.destroy
 
       report = Report.new.get_after_json(tests, notification)
       craft_json(report)
