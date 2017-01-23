@@ -1,5 +1,7 @@
+require 'multi_json'
+
 class JSONFile
-  def push(key, value)
+  def self.push(key, value)
     save(
       {
         'tests' => tests.merge(key => value)
@@ -7,15 +9,17 @@ class JSONFile
     )
   end
 
-  private
-
-  def tests
-    MultiJson.load(File.read('report.json'))['tests']
-  end
-
-  def save(json)
+  def self.save(json)
     File.open('report.json', 'w') do |file|
       file.write(MultiJson.dump(json))
     end
+  end
+
+  def self.tests
+    MultiJson.load(File.read('report.json'))['tests']
+  end
+
+  def self.destroy
+    File.delete('report.json')
   end
 end

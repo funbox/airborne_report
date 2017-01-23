@@ -1,4 +1,5 @@
 require 'multi_json'
+require 'report_airborne/json_file'
 
 module ReportAirborne
   class Message
@@ -37,8 +38,8 @@ module ReportAirborne
       })
     end
 
-    def save(location, storage)
-      storage.push(location, @message)
+    def save(location)
+      JSONFile.push(location, @message)
     end
   end
 end

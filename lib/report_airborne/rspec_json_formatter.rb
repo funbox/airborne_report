@@ -1,17 +1,18 @@
 require 'rspec/core/formatters/base_formatter'
 require 'haml'
+require 'report_airborne/json_file'
 
 module ReportAirborne
   class RspecJsonFormatter < RSpec::Core::Formatters::BaseFormatter
     RSpec::Core::Formatters.register self, :start, :stop
 
     def start(_notification)
-      build_file(blank)
+      JSONFile.save(blank)
     end
 
     def stop(notification)
-      after_json = get_after_json(get_before_json['tests'], notification)
-      destroy_file
+      after_json = get_after_json(JSONFile.tests, notification)
+      JSONFile.destroy
       craft_json(after_json)
       craft_html(after_json)
     end
@@ -36,10 +37,6 @@ module ReportAirborne
       File.open('report.html', 'w') do |file|
         file.write(html)
       end
-    end
-
-    def get_before_json
-      MultiJson.load(File.read('report.json'))
     end
 
     def get_after_json(before_json, notification)
@@ -79,19 +76,8 @@ module ReportAirborne
 
     def blank
       {
-        'statuses' => {},
         'tests' => {}
       }
-    end
-
-    def build_file(blank)
-      File.open('report.json', 'w') do |file|
-        file.write(MultiJson.dump(blank))
-      end
-    end
-
-    def destroy_file
-      File.delete('report.json')
     end
   end
 end
