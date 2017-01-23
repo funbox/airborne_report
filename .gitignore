@@ -8,3 +8,5 @@
 /spec/reports/
 /tmp/
 .idea
+report.html
+report.json
