@@ -38,6 +38,17 @@ module ReportAirborne
       })
     end
 
+    def self.extra(example)
+      new({
+        'full_description' => example.full_description,
+        'status' => example.execution_result.status
+      })
+    end
+
+    def to_hash
+      @message
+    end
+
     def save(location)
       JsonFile.push(location, @message)
     end

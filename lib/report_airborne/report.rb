@@ -6,7 +6,7 @@ module ReportAirborne
       }
     end
 
-    def get_after_json(before_json, notification)
+    def initialize(before_json, notification)
       after_json = {}
 
       statuses = {
@@ -19,26 +19,23 @@ module ReportAirborne
       notification.examples.map do |example|
         location = example.metadata[:location]
         if before_json[location]
-          after_json[location] = new_case(example).merge(before_json[location])
+          after_json[location] = Message.extra(example).to_hash.merge(before_json[location])
         else
-          after_json[location] = new_case(example)
+          after_json[location] = Message.extra(example).to_hash
         end
 
         statuses['all'] += 1
         statuses[example.execution_result.status.to_s] += 1
       end
 
-      {
+      @json = {
         'statuses' => statuses,
         'tests' => after_json
       }
     end
 
-    def new_case(example)
-      {
-        'full_description' => example.full_description,
-        'status' => example.execution_result.status
-      }
+    def to_hash
+      @json
     end
   end
 end

@@ -15,7 +15,7 @@ module ReportAirborne
       tests = JsonFile.tests
       JsonFile.destroy
 
-      report = Report.new.get_after_json(tests, notification)
+      report = Report.new(tests, notification).to_hash
       craft_html(report)
     end
 
