@@ -10,16 +10,16 @@ class JsonFile
   end
 
   def self.save(json)
-    File.open('report.json', 'w') do |file|
+    File.open('storage.json', 'w') do |file|
       file.write(MultiJson.dump(json))
     end
   end
 
   def self.tests
-    MultiJson.load(File.read('report.json'))['tests']
+    MultiJson.load(File.read('storage.json'))['tests']
   end
 
   def self.destroy
-    File.delete('report.json')
+    File.delete('storage.json')
   end
 end
