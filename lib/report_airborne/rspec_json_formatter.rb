@@ -6,26 +6,24 @@ module ReportAirborne
     RSpec::Core::Formatters.register self, :start, :stop
 
     def start(_notification)
-      File.open('report.json', 'w') do |file|
-        file.write(MultiJson.dump(
-                     'statuses' => {},
-                     'tests' => {}
-        ))
-      end
+      build_file(blank)
     end
 
     def stop(notification)
-      after_json = MultiJson.dump(get_after_json(get_before_json['tests'], notification))
-
-      File.open('report.json', 'w') do |file|
-        file.write(after_json)
-      end
-
-      craft_html
+      after_json = get_after_json(get_before_json['tests'], notification)
+      destroy_file
+      craft_json(after_json)
+      craft_html(after_json)
     end
 
-    def craft_html
-      info = MultiJson.load(File.read('report.json'))
+    def craft_json(after_json)
+      File.open('report.json', 'w') do |file|
+        file.write(MultiJson.dump(after_json))
+      end
+    end
+
+    def craft_html(after_json)
+      info = after_json
       contents = File.read(File.expand_path('../report.html.haml', __FILE__))
       html = "<style>\n#{File.read(File.expand_path('../style.css', __FILE__))}\n</style>\n"
       i = 0
@@ -39,8 +37,6 @@ module ReportAirborne
         file.write(html)
       end
     end
-
-    private
 
     def get_before_json
       MultiJson.load(File.read('report.json'))
@@ -79,6 +75,23 @@ module ReportAirborne
         'full_description' => example.full_description,
         'status' => example.execution_result.status
       }
+    end
+
+    def blank
+      {
+        'statuses' => {},
+        'tests' => {}
+      }
+    end
+
+    def build_file(blank)
+      File.open('report.json', 'w') do |file|
+        file.write(MultiJson.dump(blank))
+      end
+    end
+
+    def destroy_file
+      File.delete('report.json')
     end
   end
 end

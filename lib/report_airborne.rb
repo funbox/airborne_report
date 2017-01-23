@@ -1,6 +1,7 @@
 require 'report_airborne/version'
 require 'report_airborne/rspec_json_formatter'
 require 'report_airborne/message'
+require 'report_airborne/json_file'
 
 module ReportAirborne
   # Your code goes here...
@@ -11,32 +12,33 @@ module Airborne
     alias origin_make_request make_request
 
     def make_request(*args)
+      storage = JSONFile.new
       response = origin_make_request(*args)
-      save!(args, response)
+      save!(args, response, storage)
       response
     rescue SocketError => error
-      wasted_save(args, response)
+      wasted_save(args, response, storage)
       error
     end
 
     private
 
-    def save!(args, response)
+    def save!(args, response, storage)
       if response.is_a?(RestClient::Response)
-        full_save(response)
+        full_save(response, storage)
       else
-        wasted_save(args, response)
+        wasted_save(args, response, storage)
       end
     end
 
-    def full_save(response)
+    def full_save(response, storage)
       request = response.request
-      ReportAirborne::Message.full(request, response).save(location)
+      ReportAirborne::Message.full(request, response).save(location, storage)
     end
 
-    def wasted_save(args, response)
+    def wasted_save(args, response, storage)
       url = get_url(args[1])
-      ReportAirborne::Message.wasted(args, response, url).save(location)
+      ReportAirborne::Message.wasted(args, response, url).save(location, storage)
     end
 
     def location

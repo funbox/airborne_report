@@ -37,22 +37,8 @@ module ReportAirborne
       })
     end
 
-    def save(location)
-      reincarnation_json(
-        {
-          'tests' => before_json['tests'].merge(location => @message)
-        }
-      )
-    end
-
-    def before_json
-      MultiJson.load(File.read('report.json'))
-    end
-
-    def reincarnation_json(after_json)
-      File.open('report.json', 'w') do |file|
-        file.write(MultiJson.dump(after_json))
-      end
+    def save(location, storage)
+      storage.push(location, @message)
     end
   end
 end
