@@ -48,9 +48,5 @@ module ReportAirborne
     def to_hash
       @message
     end
-
-    def save(location)
-      JsonFile.push(location, @message)
-    end
   end
 end

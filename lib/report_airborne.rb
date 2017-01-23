@@ -31,12 +31,19 @@ module Airborne
 
     def full_save(response)
       request = response.request
-      ReportAirborne::Message.full(request, response).save(location)
+      JsonFile.push(
+        location,
+        ReportAirborne::Message.full(request, response).to_hash
+      )
     end
 
     def wasted_save(args, response)
       url = get_url(args[1])
       ReportAirborne::Message.wasted(args, response, url).save(location)
+      JsonFile.push(
+        location,
+        ReportAirborne::Message.full(request, response).to_hash
+      )
     end
 
     def location
