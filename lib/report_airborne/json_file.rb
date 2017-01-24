@@ -3,9 +3,7 @@ require 'multi_json'
 class ReportAirborne::JsonFile
   def self.push(key, value)
     save(
-      {
-        'tests' => tests.merge(key => value)
-      }
+      'tests' => tests.merge(key => value)
     )
   end
 

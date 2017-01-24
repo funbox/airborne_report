@@ -7,8 +7,8 @@ describe Airborne::RestClientRequester do
     expect(
       make_request(
         :get,
-        "http://api.local",
-        {:headers => {"login" => "WAT"}}
+        'http://api.local',
+        headers: { 'login' => 'WAT' }
       )
     ).to eq({})
   end
@@ -16,13 +16,13 @@ describe Airborne::RestClientRequester do
   it do
     allow_any_instance_of(described_class).to receive(:origin_make_request).and_raise(SocketError)
     allow(ReportAirborne::JsonFile).to receive(:push)
-    expect {
+    expect do
       make_request(
         :get,
-        "http://api.local",
-        {:headers => {"login" => "WAT"}}
+        'http://api.local',
+        headers: { 'login' => 'WAT' }
       )
-    }.to raise_error(SocketError)
+    end.to raise_error(SocketError)
   end
 
   let(:stub_response) { double(is_a?: true, request: double(method: nil, url: nil, headers: nil, args: nil), headers: nil) }
@@ -36,8 +36,8 @@ describe Airborne::RestClientRequester do
     expect(
       make_request(
         :get,
-        "http://api.local",
-        {:headers => {"login" => "WAT"}}
+        'http://api.local',
+        headers: { 'login' => 'WAT' }
       )
     ).to eq(stub_response)
   end
