@@ -31,7 +31,7 @@ module Airborne
 
     def full_save(response)
       request = response.request
-      JsonFile.push(
+      ReportAirborne::JsonFile.push(
         location,
         ReportAirborne::Message.full(request, response).to_hash
       )
@@ -39,7 +39,7 @@ module Airborne
 
     def wasted_save(args, response)
       url = get_url(args[1])
-      JsonFile.push(
+      ReportAirborne::JsonFile.push(
         location,
         ReportAirborne::Message.wasted(args, response, url).to_hash
       )

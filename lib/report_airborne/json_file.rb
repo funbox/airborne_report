@@ -1,6 +1,6 @@
 require 'multi_json'
 
-class JsonFile
+class ReportAirborne::JsonFile
   def self.push(key, value)
     save(
       {
