@@ -8,4 +8,3 @@ SimpleCov.start
 require 'byebug'
 require 'airborne'
 require 'report_airborne'
-require 'webmock'

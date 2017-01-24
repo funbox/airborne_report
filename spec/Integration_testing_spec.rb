@@ -1,22 +1,33 @@
 require 'spec_helper'
+require 'webmock/rspec'
+require 'multi_json'
 
 describe 'Integration testing' do
-  context 'post 1' do
-    it 'returns status 200' do
-      get 'https://jsonplaceholder.typicode.com/posts/1', {'login' => 'WAT'}
+  context 'good request and response' do
+    before do
+      stub_request(:get, 'http://api.local/')
+        .to_return(
+          status: 200,
+          body: MultiJson.dump({'test' => 'check'}),
+          headers: {'Content-Type' => 'application/json'}
+        )
+    end
+
+    it 'returns all info' do
+      get 'http://api.local/'
       expect_status (200)
     end
   end
 
-  context 'post 2' do
-    it 'returns status 200' do
-      get 'httpsjsonplaceholder.typicode.com/posts/2', {'login' => 'WAT'}
-      expect_status (201)
+  context 'expect fail' do
+    it 'returns fail' do
+      get 'http://api.local/'
+      expect_status (200)
     end
   end
 
-  context 'post 3' do
-    it 'returns status 200' do
+  context 'test skip' do
+    it 'returns pending' do
       skip
     end
   end
