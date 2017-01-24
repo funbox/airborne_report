@@ -2,10 +2,76 @@ require 'spec_helper'
 require 'report_airborne/report'
 
 describe ReportAirborne::Report do
-  it do
-    allow(ReportAirborne::Message).to receive(:extra).and_return(double(to_hash: {}))
-    example1 = double(metadata: { location: '1' }, execution_result: double(status: 'passed'))
-    example2 = double(metadata: { location: '2' }, execution_result: double(status: 'passed'))
-    described_class.new({ '2' => {} }, double(examples: [example1, example2])).to_hash
+  describe '.new' do
+    let(:example1) { double(metadata: {location: '1'}, execution_result: double(status: 'passed')) }
+    let(:example2) { double(metadata: {location: '2'}, execution_result: double(status: 'passed')) }
+    let(:examples) { [example1, example2] }
+    let(:before_json) { {'2' => {}} }
+    let(:notification) { double(examples: examples) }
+
+    before { allow(ReportAirborne::Message).to receive(:extra).and_return(double(to_hash: {})) }
+
+    it 'not raise exception' do
+      expect { expect(described_class.new(before_json, notification)) }.not_to raise_exception
+    end
+
+    it 'set date' do
+      expect(described_class.new(before_json, notification).to_hash)
+        .to eq(
+          {
+            "statuses" => {
+              "all" => 2,
+              "passed" => 2,
+              "failed" => 0,
+              "pending" => 0
+            },
+            "tests" => {
+              "1" => {},
+              "2" => {}
+            }}
+        )
+    end
+  end
+
+  describe '.blank' do
+    it 'get date' do
+      expect(described_class.blank)
+        .to eq(
+          {
+            'tests' => {}
+          }
+        )
+    end
+  end
+
+  describe '#to_hash' do
+    let(:example1) { double(metadata: {location: '1'}, execution_result: double(status: 'passed')) }
+    let(:example2) { double(metadata: {location: '2'}, execution_result: double(status: 'passed')) }
+    let(:examples) { [example1, example2] }
+    let(:before_json) { {'2' => {}} }
+    let(:notification) { double(examples: examples) }
+
+    before { allow(ReportAirborne::Message).to receive(:extra).and_return(double(to_hash: {})) }
+
+    it 'not raise exception' do
+      expect { expect(described_class.new(before_json, notification).to_hash) }.not_to raise_exception
+    end
+
+    it 'set date' do
+      expect(described_class.new(before_json, notification).to_hash)
+        .to eq(
+          {
+            "statuses" => {
+              "all" => 2,
+              "passed" => 2,
+              "failed" => 0,
+              "pending" => 0
+            },
+            "tests" => {
+              "1" => {},
+              "2" => {}
+            }}
+        )
+    end
   end
 end
