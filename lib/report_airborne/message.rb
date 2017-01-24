@@ -41,7 +41,7 @@ module ReportAirborne
     def self.extra(example)
       new({
         'full_description' => example.full_description,
-        'status' => example.execution_result.status
+        'status' => example.execution_result.status.to_s
       })
     end
 

@@ -72,6 +72,10 @@
             %div{class: 'section'}
               %div
                 Request failed
+          - elsif example.last['status'] == 'pending'
+            %div
+              %b path:
+              = example.first
           - else
             %div
               %b path:
