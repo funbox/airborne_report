@@ -3,10 +3,10 @@ require 'report_airborne/report'
 
 describe ReportAirborne::Report do
   describe '.new' do
-    let(:example1) { double(metadata: {location: '1'}, execution_result: double(status: 'passed')) }
-    let(:example2) { double(metadata: {location: '2'}, execution_result: double(status: 'passed')) }
+    let(:example1) { double(metadata: { location: '1' }, execution_result: double(status: 'passed')) }
+    let(:example2) { double(metadata: { location: '2' }, execution_result: double(status: 'passed')) }
     let(:examples) { [example1, example2] }
-    let(:before_json) { {'2' => {}} }
+    let(:before_json) { { '2' => {} } }
     let(:notification) { double(examples: examples) }
 
     before { allow(ReportAirborne::Message).to receive(:extra).and_return(double(to_hash: {})) }
@@ -18,17 +18,17 @@ describe ReportAirborne::Report do
     it 'set date' do
       expect(described_class.new(before_json, notification).to_hash)
         .to eq(
-          {
-            "statuses" => {
-              "all" => 2,
-              "passed" => 2,
-              "failed" => 0,
-              "pending" => 0
-            },
-            "tests" => {
-              "1" => {},
-              "2" => {}
-            }}
+          'statuses' => {
+            'all' => 2,
+            'passed' => 2,
+            'failed' => 0,
+            'pending' => 0
+          },
+          'tests' => {
+            '1' => {},
+            '2' => {}
+          }
+
         )
     end
   end
@@ -37,18 +37,16 @@ describe ReportAirborne::Report do
     it 'get date' do
       expect(described_class.blank)
         .to eq(
-          {
-            'tests' => {}
-          }
+          'tests' => {}
         )
     end
   end
 
   describe '#to_hash' do
-    let(:example1) { double(metadata: {location: '1'}, execution_result: double(status: 'passed')) }
-    let(:example2) { double(metadata: {location: '2'}, execution_result: double(status: 'passed')) }
+    let(:example1) { double(metadata: { location: '1' }, execution_result: double(status: 'passed')) }
+    let(:example2) { double(metadata: { location: '2' }, execution_result: double(status: 'passed')) }
     let(:examples) { [example1, example2] }
-    let(:before_json) { {'2' => {}} }
+    let(:before_json) { { '2' => {} } }
     let(:notification) { double(examples: examples) }
 
     before { allow(ReportAirborne::Message).to receive(:extra).and_return(double(to_hash: {})) }
@@ -60,17 +58,17 @@ describe ReportAirborne::Report do
     it 'set date' do
       expect(described_class.new(before_json, notification).to_hash)
         .to eq(
-          {
-            "statuses" => {
-              "all" => 2,
-              "passed" => 2,
-              "failed" => 0,
-              "pending" => 0
-            },
-            "tests" => {
-              "1" => {},
-              "2" => {}
-            }}
+          'statuses' => {
+            'all' => 2,
+            'passed' => 2,
+            'failed' => 0,
+            'pending' => 0
+          },
+          'tests' => {
+            '1' => {},
+            '2' => {}
+          }
+
         )
     end
   end

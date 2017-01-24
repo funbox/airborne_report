@@ -38,7 +38,7 @@ describe ReportAirborne::Message do
   end
 
   describe '.wasted' do
-    let(:args) { [nil, nil, {headers: nil, body: nil}] }
+    let(:args) { [nil, nil, { headers: nil, body: nil }] }
     let(:response) { nil }
     let(:url) { nil }
 
