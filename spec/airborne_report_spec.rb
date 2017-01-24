@@ -1,44 +1,45 @@
 require 'spec_helper'
 
 describe Airborne::RestClientRequester do
-  it do
+  subject do
+    make_request(
+      :get,
+      'http://api.local',
+      headers: {'login' => 'WAT'}
+    )
+  end
+
+  before do
     allow_any_instance_of(described_class).to receive(:origin_make_request).and_return({})
     allow(AirborneReport::JsonFile).to receive(:push)
-    expect(
-      make_request(
-        :get,
-        'http://api.local',
-        headers: { 'login' => 'WAT' }
-      )
-    ).to eq({})
   end
 
-  it do
-    allow_any_instance_of(described_class).to receive(:origin_make_request).and_raise(SocketError)
-    allow(AirborneReport::JsonFile).to receive(:push)
-    expect do
-      make_request(
-        :get,
-        'http://api.local',
-        headers: { 'login' => 'WAT' }
-      )
-    end.to raise_error(SocketError)
+  it 'returns response' do
+    expect(subject).to eq({})
   end
 
-  let(:stub_response) { double(is_a?: true, request: double(method: nil, url: nil, headers: nil, args: nil), headers: nil) }
+  context 'raise error' do
+    before { allow_any_instance_of(described_class).to receive(:origin_make_request).and_raise(SocketError) }
 
-  it do
-    allow_any_instance_of(described_class).to receive(:origin_make_request).and_return(
-      stub_response
-    )
-    allow(AirborneReport::JsonFile).to receive(:push)
-    allow(MultiJson).to receive(:load).and_return({})
-    expect(
-      make_request(
-        :get,
-        'http://api.local',
-        headers: { 'login' => 'WAT' }
+    it 'returns raise error' do
+      expect { subject }.to raise_error(SocketError)
+    end
+  end
+
+  context 'is RestClient::Response' do
+    let(:stub_response) do
+      double(is_a?: true, request: double(method: nil, url: nil, headers: nil, args: nil), headers: nil)
+    end
+
+    before do
+      allow_any_instance_of(described_class).to receive(:origin_make_request).and_return(
+        stub_response
       )
-    ).to eq(stub_response)
+      allow(MultiJson).to receive(:load).and_return({})
+    end
+
+    it 'returns response' do
+      expect(subject).to eq(stub_response)
+    end
   end
 end
