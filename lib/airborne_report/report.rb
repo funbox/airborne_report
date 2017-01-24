@@ -1,4 +1,4 @@
-module ReportAirborne
+module AirborneReport
   class Report
     def initialize(before_json, notification)
       after_json = {}

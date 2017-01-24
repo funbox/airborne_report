@@ -1,7 +1,7 @@
 require 'spec_helper'
-require 'report_airborne/rspec_html_formatter'
+require 'airborne_report/rspec_html_formatter'
 
-describe ReportAirborne::RspecHtmlFormatter do
+describe AirborneReport::RspecHtmlFormatter do
   subject { described_class.new(nil) }
 
   describe '#start' do
@@ -24,7 +24,7 @@ describe ReportAirborne::RspecHtmlFormatter do
       )
     end
 
-    before { allow(ReportAirborne::Report).to receive(:new).and_return(report) }
+    before { allow(AirborneReport::Report).to receive(:new).and_return(report) }
 
     it 'not raise exception' do
       expect { subject.stop(nil) }.not_to raise_exception

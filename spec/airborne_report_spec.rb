@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Airborne::RestClientRequester do
   it do
     allow_any_instance_of(described_class).to receive(:origin_make_request).and_return({})
-    allow(ReportAirborne::JsonFile).to receive(:push)
+    allow(AirborneReport::JsonFile).to receive(:push)
     expect(
       make_request(
         :get,
@@ -15,7 +15,7 @@ describe Airborne::RestClientRequester do
 
   it do
     allow_any_instance_of(described_class).to receive(:origin_make_request).and_raise(SocketError)
-    allow(ReportAirborne::JsonFile).to receive(:push)
+    allow(AirborneReport::JsonFile).to receive(:push)
     expect do
       make_request(
         :get,
@@ -31,7 +31,7 @@ describe Airborne::RestClientRequester do
     allow_any_instance_of(described_class).to receive(:origin_make_request).and_return(
       stub_response
     )
-    allow(ReportAirborne::JsonFile).to receive(:push)
+    allow(AirborneReport::JsonFile).to receive(:push)
     allow(MultiJson).to receive(:load).and_return({})
     expect(
       make_request(

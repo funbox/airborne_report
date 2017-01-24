@@ -1,7 +1,7 @@
 require 'spec_helper'
-require 'report_airborne/report'
+require 'airborne_report/report'
 
-describe ReportAirborne::Report do
+describe AirborneReport::Report do
   describe '.new' do
     let(:example1) { double(metadata: { location: '1' }, execution_result: double(status: 'passed')) }
     let(:example2) { double(metadata: { location: '2' }, execution_result: double(status: 'passed')) }
@@ -9,7 +9,7 @@ describe ReportAirborne::Report do
     let(:before_json) { { '2' => {} } }
     let(:notification) { double(examples: examples) }
 
-    before { allow(ReportAirborne::Message).to receive(:extra).and_return(double(to_hash: {})) }
+    before { allow(AirborneReport::Message).to receive(:extra).and_return(double(to_hash: {})) }
 
     it 'not raise exception' do
       expect { expect(described_class.new(before_json, notification)) }.not_to raise_exception
@@ -49,7 +49,7 @@ describe ReportAirborne::Report do
     let(:before_json) { { '2' => {} } }
     let(:notification) { double(examples: examples) }
 
-    before { allow(ReportAirborne::Message).to receive(:extra).and_return(double(to_hash: {})) }
+    before { allow(AirborneReport::Message).to receive(:extra).and_return(double(to_hash: {})) }
 
     it 'not raise exception' do
       expect { expect(described_class.new(before_json, notification).to_hash) }.not_to raise_exception

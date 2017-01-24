@@ -1,7 +1,7 @@
-require 'report_airborne/version'
-require 'report_airborne/message'
+require 'airborne_report/version'
+require 'airborne_report/message'
 
-module ReportAirborne
+module AirborneReport
   # Your code goes here...
 end
 
@@ -30,17 +30,17 @@ module Airborne
 
     def full_save(response)
       request = response.request
-      ReportAirborne::JsonFile.push(
+      AirborneReport::JsonFile.push(
         location,
-        ReportAirborne::Message.full(request, response).to_hash
+        AirborneReport::Message.full(request, response).to_hash
       )
     end
 
     def wasted_save(args, response)
       url = get_url(args[1])
-      ReportAirborne::JsonFile.push(
+      AirborneReport::JsonFile.push(
         location,
-        ReportAirborne::Message.wasted(args, response, url).to_hash
+        AirborneReport::Message.wasted(args, response, url).to_hash
       )
     end
 

@@ -1,6 +1,6 @@
 require 'multi_json'
 
-class ReportAirborne::JsonFile
+class AirborneReport::JsonFile
   NAME = 'storage.json'.freeze
 
   def self.save(json)

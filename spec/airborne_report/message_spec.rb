@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe ReportAirborne::Message do
+describe AirborneReport::Message do
   describe '.new' do
     it 'not raise exception' do
       expect { described_class.new({}) }.not_to raise_exception

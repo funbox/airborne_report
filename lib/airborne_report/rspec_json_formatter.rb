@@ -1,19 +1,19 @@
 require 'rspec/core/formatters/base_formatter'
 require 'multi_json'
-require 'report_airborne/json_file'
-require 'report_airborne/report'
+require 'airborne_report/json_file'
+require 'airborne_report/report'
 
-module ReportAirborne
+module AirborneReport
   class RspecJsonFormatter < RSpec::Core::Formatters::BaseFormatter
     RSpec::Core::Formatters.register self, :start, :stop
 
     def start(_notification)
-      ReportAirborne::JsonFile.save(Report.blank)
+      AirborneReport::JsonFile.save(Report.blank)
     end
 
     def stop(notification)
-      tests = ReportAirborne::JsonFile.tests
-      ReportAirborne::JsonFile.destroy
+      tests = AirborneReport::JsonFile.tests
+      AirborneReport::JsonFile.destroy
 
       report = Report.new(tests, notification).to_hash
       craft_json(report)

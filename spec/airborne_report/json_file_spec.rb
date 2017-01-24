@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe ReportAirborne::JsonFile do
+describe AirborneReport::JsonFile do
   describe '.save' do
     after { described_class.destroy }
 

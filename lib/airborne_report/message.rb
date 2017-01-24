@@ -1,7 +1,7 @@
 require 'multi_json'
-require 'report_airborne/json_file'
+require 'airborne_report/json_file'
 
-module ReportAirborne
+module AirborneReport
   class Message
     def initialize(message)
       @message = message
