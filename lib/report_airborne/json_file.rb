@@ -1,23 +1,23 @@
 require 'multi_json'
 
 class ReportAirborne::JsonFile
-  def self.push(key, value)
-    save(
-      'tests' => tests.merge(key => value)
-    )
-  end
+  NAME = 'storage.json'.freeze
 
   def self.save(json)
-    File.open('storage.json', 'w') do |file|
+    File.open(NAME, 'w') do |file|
       file.write(MultiJson.dump(json))
     end
   end
 
+  def self.push(key, value)
+    save('tests' => tests.merge(key => value))
+  end
+
   def self.tests
-    MultiJson.load(File.read('storage.json'))['tests']
+    MultiJson.load(File.read(NAME))['tests']
   end
 
   def self.destroy
-    File.delete('storage.json')
+    File.delete(NAME)
   end
 end
