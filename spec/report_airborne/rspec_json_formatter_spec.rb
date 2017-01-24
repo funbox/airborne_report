@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'report_airborne/rspec_json_formatter'
 
 describe ReportAirborne::RspecJsonFormatter do
   it do

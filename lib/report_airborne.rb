@@ -1,5 +1,4 @@
 require 'report_airborne/version'
-require 'report_airborne/rspec_json_formatter'
 require 'report_airborne/message'
 
 module ReportAirborne
