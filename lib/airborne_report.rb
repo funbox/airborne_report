@@ -2,7 +2,6 @@ require 'airborne_report/version'
 require 'airborne_report/message'
 
 module AirborneReport
-  # Your code goes here...
 end
 
 module Airborne
