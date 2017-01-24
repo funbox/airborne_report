@@ -16,7 +16,7 @@ module Airborne
       response
     rescue SocketError => error
       wasted_save(args, response)
-      error
+      raise error
     end
 
     private
