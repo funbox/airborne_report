@@ -15,14 +15,14 @@ describe 'Integration testing' do
 
     it 'returns all info' do
       get 'http://api.local/'
-      expect_status (200)
+      expect_status(200)
     end
   end
 
   context 'expect fail' do
     it 'returns fail' do
       get 'http://api.local/'
-      expect_status (200)
+      expect_status(200)
     end
   end
 
