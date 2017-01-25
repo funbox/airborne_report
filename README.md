@@ -1,13 +1,15 @@
 # AirborneReport
 
-Generate report on tests for gem airborne.
+Generate reports on tests with the [airborne](https://rubygems.org/gems/airborne) gem.
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'airborne_report'
+group :test do
+  gem 'airborne_report'
+end
 ```
 
 And then execute:
@@ -21,6 +23,7 @@ Or install it yourself as:
 ## Usage
 
 ```
+# spec/spec_helper.rb
 require 'airborne_report'
 ```
 
@@ -33,6 +36,8 @@ or
 ```
 bundle exec rspec --format AirborneReport::RspecHtmlFormatter
 ```
+
+After that you can find the report in `report.json` or `report.html`.
 
 ## Development
 

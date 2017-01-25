@@ -6,11 +6,14 @@ require 'airborne_report/version'
 Gem::Specification.new do |spec|
   spec.name          = 'airborne_report'
   spec.version       = AirborneReport::VERSION
-  spec.authors       = ['d.efimov']
+  spec.authors       = ['Dmitry Efimov']
   spec.email         = ['d.efimov@fun-box.ru']
 
-  spec.summary       = 'Generate report on tests.'
-  spec.description   = 'Generate report on tests for gem airborne.'
+  spec.summary       = 'Generate reports on Airborne tests.'
+  spec.description   =
+    'This gem gives you RSpec formatters which let you generate HTML and JSON reports ' \
+    'if you use the airborne gem for your integration tests.'
+
   spec.homepage      = 'https://github.com/funbox/airborne_report'
   spec.license       = 'MIT'
 
@@ -22,11 +25,8 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'airborne'
   spec.add_runtime_dependency 'multi_json'
   spec.add_runtime_dependency 'haml'
+
   spec.add_development_dependency 'bundler'
   spec.add_development_dependency 'rake'
-  spec.add_development_dependency 'rubocop'
   spec.add_development_dependency 'rspec'
-  spec.add_development_dependency 'simplecov'
-  spec.add_development_dependency 'byebug'
-  spec.add_development_dependency 'webmock'
 end
