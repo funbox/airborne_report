@@ -22,7 +22,7 @@ Or install it yourself as:
     
 ## Usage
 
-```
+```ruby
 # spec/spec_helper.rb
 require 'airborne_report'
 ```
