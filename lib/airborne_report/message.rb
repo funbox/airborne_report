@@ -18,9 +18,15 @@ module AirborneReport
         },
         'response' => {
           'headers' => response.headers,
-          'body' => MultiJson.load(response)
+          'body' => load_response(response)
         }
       )
+    end
+
+    def self.load_response(response)
+      MultiJson.load(response)
+    rescue MultiJson::ParseError
+      response
     end
 
     def self.wasted(args, response, url)
