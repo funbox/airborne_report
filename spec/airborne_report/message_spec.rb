@@ -37,8 +37,20 @@ describe AirborneReport::Message do
     end
   end
 
+  describe '.load_response' do
+    it 'returns response' do
+      expect(described_class.load_response('{}')).to eq({})
+    end
+
+    context 'invalid' do
+      it 'returns response' do
+        expect(described_class.load_response('lol')).to eq('lol')
+      end
+    end
+  end
+
   describe '.wasted' do
-    let(:args) { [nil, nil, { headers: nil, body: nil }] }
+    let(:args) { [nil, nil, {headers: nil, body: nil}] }
     let(:response) { nil }
     let(:url) { nil }
 
