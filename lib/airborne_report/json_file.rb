@@ -12,6 +12,7 @@ module AirborneReport
 
     def self.push(key, value)
       save('tests' => tests.merge(key => value))
+    rescue Errno::ENOENT
     end
 
     def self.tests
