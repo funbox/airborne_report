@@ -81,3 +81,12 @@
               %b path:
               = example.first
             Test failed
+            %div
+              %b exception.class:
+              = example.last['exception']['class']
+            %div
+              %b exception.message:
+              = example.last['exception']['message']
+            %div
+              %b exception.backtrace:
+              = example.last['exception']['backtrace']
