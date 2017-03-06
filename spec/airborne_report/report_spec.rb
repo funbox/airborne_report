@@ -3,8 +3,8 @@ require 'airborne_report/report'
 
 describe AirborneReport::Report do
   describe '.new' do
-    let(:example1) { double(metadata: { location: '1' }, execution_result: double(status: 'passed')) }
-    let(:example2) { double(metadata: { location: '2' }, execution_result: double(status: 'passed')) }
+    let(:example1) { double(metadata: { location: '1' }, execution_result: double(status: 'passed'), exception: nil) }
+    let(:example2) { double(metadata: { location: '2' }, execution_result: double(status: 'passed'), exception: nil) }
     let(:examples) { [example1, example2] }
     let(:before_json) { { '2' => {} } }
     let(:notification) { double(examples: examples) }
@@ -43,8 +43,8 @@ describe AirborneReport::Report do
   end
 
   describe '#to_hash' do
-    let(:example1) { double(metadata: { location: '1' }, execution_result: double(status: 'passed')) }
-    let(:example2) { double(metadata: { location: '2' }, execution_result: double(status: 'passed')) }
+    let(:example1) { double(metadata: { location: '1' }, execution_result: double(status: 'passed'), exception: nil) }
+    let(:example2) { double(metadata: { location: '2' }, execution_result: double(status: 'passed'), exception: nil) }
     let(:examples) { [example1, example2] }
     let(:before_json) { { '2' => {} } }
     let(:notification) { double(examples: examples) }
