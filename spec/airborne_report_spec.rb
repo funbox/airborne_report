@@ -11,7 +11,7 @@ describe Airborne::RestClientRequester do
 
   before do
     allow_any_instance_of(described_class).to receive(:origin_make_request).and_return({})
-    allow(AirborneReport::JsonFile).to receive(:push)
+    allow(AirborneReport::Storage::Tests).to receive(:find_or_create).and_return([])
   end
 
   it 'returns response' do

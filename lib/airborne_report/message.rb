@@ -1,5 +1,4 @@
 require 'multi_json'
-require 'airborne_report/json_file'
 
 module AirborneReport
   class Message

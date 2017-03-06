@@ -6,7 +6,7 @@ describe AirborneReport::Report do
     let(:example1) { double(metadata: { location: '1' }, execution_result: double(status: 'passed'), exception: nil) }
     let(:example2) { double(metadata: { location: '2' }, execution_result: double(status: 'passed'), exception: nil) }
     let(:examples) { [example1, example2] }
-    let(:before_json) { { '2' => {} } }
+    let(:before_json) { { '2' => [{}] } }
     let(:notification) { double(examples: examples) }
 
     before { allow(AirborneReport::Message).to receive(:extra).and_return(double(to_hash: {})) }
@@ -46,7 +46,7 @@ describe AirborneReport::Report do
     let(:example1) { double(metadata: { location: '1' }, execution_result: double(status: 'passed'), exception: nil) }
     let(:example2) { double(metadata: { location: '2' }, execution_result: double(status: 'passed'), exception: nil) }
     let(:examples) { [example1, example2] }
-    let(:before_json) { { '2' => {} } }
+    let(:before_json) { { '2' => [{}] } }
     let(:notification) { double(examples: examples) }
 
     before { allow(AirborneReport::Message).to receive(:extra).and_return(double(to_hash: {})) }
