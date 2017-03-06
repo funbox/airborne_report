@@ -3,7 +3,8 @@ require 'airborne_report/report'
 
 describe AirborneReport::Report do
   describe '.new' do
-    let(:example1) { double(metadata: { location: '1' }, execution_result: double(status: 'passed'), exception: nil) }
+    let(:exception) { double(class: double(name: nil), message: nil, backtrace: nil) }
+    let(:example1) { double(metadata: { location: '1' }, execution_result: double(status: 'passed'), exception: exception) }
     let(:example2) { double(metadata: { location: '2' }, execution_result: double(status: 'passed'), exception: nil) }
     let(:examples) { [example1, example2] }
     let(:before_json) { { '2' => [{}] } }
@@ -25,7 +26,7 @@ describe AirborneReport::Report do
             'pending' => 0
           },
           'tests' => {
-            '1' => {},
+            '1' => {'exception' => {'class' => nil, 'message' => nil, 'backtrace' => nil}},
             '2' => {'responses' => [{}]}
           }
 
