@@ -10,15 +10,15 @@ module AirborneReport
     def self.full(request, response)
       new(
         'time' => Time.now,
-        'request' => {
-          'method' => request.method,
-          'url' => request.url,
-          'headers' => request.headers,
-          'body' => request.args
-        },
         'response' => {
           'headers' => response.headers,
-          'body' => load_response(response)
+          'body' => load_response(response),
+          'request' => {
+            'method' => request.method,
+            'url' => request.url,
+            'headers' => request.headers,
+            'body' => request.args
+          }
         }
       )
     end
@@ -32,14 +32,14 @@ module AirborneReport
     def self.wasted(args, response, url)
       new(
         'time' => Time.now,
-        'request' => {
-          'method' => args[0],
-          'url' => url,
-          'headers' => args[2][:headers],
-          'body' => args[2][:body]
-        },
         'response' => {
-          'body' => response
+          'body' => response,
+          'request' => {
+            'method' => args[0],
+            'url' => url,
+            'headers' => args[2][:headers],
+            'body' => args[2][:body]
+          }
         }
       )
     end

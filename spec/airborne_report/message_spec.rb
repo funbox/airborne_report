@@ -23,15 +23,15 @@ describe AirborneReport::Message do
     it 'set date' do
       expect(described_class.full(request, response).to_hash).to eq(
         'time' => 'coffee time',
-        'request' => {
-          'method' => nil,
-          'url' => nil,
-          'headers' => nil,
-          'body' => nil
-        },
         'response' => {
           'headers' => nil,
-          'body' => {}
+          'body' => {},
+          'request' => {
+            'method' => nil,
+            'url' => nil,
+            'headers' => nil,
+            'body' => nil
+          }
         }
       )
     end
@@ -63,14 +63,14 @@ describe AirborneReport::Message do
     it 'set date' do
       expect(described_class.wasted(args, response, url).to_hash).to eq(
         'time' => 'coffee time',
-        'request' => {
-          'method' => nil,
-          'url' => nil,
-          'headers' => nil,
-          'body' => nil
-        },
         'response' => {
-          'body' => nil
+          'body' => nil,
+          'request' => {
+            'method' => nil,
+            'url' => nil,
+            'headers' => nil,
+            'body' => nil
+          }
         }
       )
     end
