@@ -11,7 +11,6 @@ describe Airborne::RestClientRequester do
 
   before do
     allow_any_instance_of(described_class).to receive(:origin_make_request).and_return({})
-    allow(AirborneReport::JsonFile).to receive(:push)
   end
 
   it 'returns response' do
@@ -28,7 +27,7 @@ describe Airborne::RestClientRequester do
 
   context 'is RestClient::Response' do
     let(:stub_response) do
-      double(is_a?: true, request: double(method: nil, url: nil, headers: nil, args: nil), headers: nil)
+      double(is_a?: true, request: double(method: nil, url: nil, headers: nil, args: {payload: nil}), headers: nil)
     end
 
     before do

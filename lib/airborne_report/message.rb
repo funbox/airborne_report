@@ -1,5 +1,4 @@
 require 'multi_json'
-require 'airborne_report/json_file'
 
 module AirborneReport
   class Message
@@ -10,30 +9,36 @@ module AirborneReport
     def self.full(request, response)
       new(
         'time' => Time.now,
-        'request' => {
-          'method' => request.method,
-          'url' => request.url,
-          'headers' => request.headers,
-          'body' => request.args
-        },
         'response' => {
           'headers' => response.headers,
-          'body' => MultiJson.load(response)
+          'body' => load_response(response),
+          'request' => {
+            'method' => request.method,
+            'url' => request.url,
+            'headers' => request.headers,
+            'body' => request.args[:payload]
+          }
         }
       )
+    end
+
+    def self.load_response(response)
+      MultiJson.load(response)
+    rescue MultiJson::ParseError
+      response
     end
 
     def self.wasted(args, response, url)
       new(
         'time' => Time.now,
-        'request' => {
-          'method' => args[0],
-          'url' => url,
-          'headers' => args[2][:headers],
-          'body' => args[2][:body]
-        },
         'response' => {
-          'body' => response
+          'body' => response,
+          'request' => {
+            'method' => args[0],
+            'url' => url,
+            'headers' => args[2][:headers],
+            'body' => args[2][:body]
+          }
         }
       )
     end

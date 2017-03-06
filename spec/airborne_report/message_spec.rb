@@ -8,7 +8,7 @@ describe AirborneReport::Message do
   end
 
   describe '.full' do
-    let(:request) { double(method: nil, url: nil, headers: nil, args: nil) }
+    let(:request) { double(method: nil, url: nil, headers: nil, args: {payload: nil}) }
     let(:response) { double(headers: nil) }
 
     before do
@@ -23,22 +23,34 @@ describe AirborneReport::Message do
     it 'set date' do
       expect(described_class.full(request, response).to_hash).to eq(
         'time' => 'coffee time',
-        'request' => {
-          'method' => nil,
-          'url' => nil,
-          'headers' => nil,
-          'body' => nil
-        },
         'response' => {
           'headers' => nil,
-          'body' => {}
+          'body' => {},
+          'request' => {
+            'method' => nil,
+            'url' => nil,
+            'headers' => nil,
+            'body' => nil
+          }
         }
       )
     end
   end
 
+  describe '.load_response' do
+    it 'returns response' do
+      expect(described_class.load_response('{}')).to eq({})
+    end
+
+    context 'invalid' do
+      it 'returns response' do
+        expect(described_class.load_response('lol')).to eq('lol')
+      end
+    end
+  end
+
   describe '.wasted' do
-    let(:args) { [nil, nil, { headers: nil, body: nil }] }
+    let(:args) { [nil, nil, {headers: nil, body: nil}] }
     let(:response) { nil }
     let(:url) { nil }
 
@@ -51,14 +63,14 @@ describe AirborneReport::Message do
     it 'set date' do
       expect(described_class.wasted(args, response, url).to_hash).to eq(
         'time' => 'coffee time',
-        'request' => {
-          'method' => nil,
-          'url' => nil,
-          'headers' => nil,
-          'body' => nil
-        },
         'response' => {
-          'body' => nil
+          'body' => nil,
+          'request' => {
+            'method' => nil,
+            'url' => nil,
+            'headers' => nil,
+            'body' => nil
+          }
         }
       )
     end

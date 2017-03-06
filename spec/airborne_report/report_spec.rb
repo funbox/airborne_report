@@ -3,10 +3,11 @@ require 'airborne_report/report'
 
 describe AirborneReport::Report do
   describe '.new' do
-    let(:example1) { double(metadata: { location: '1' }, execution_result: double(status: 'passed')) }
-    let(:example2) { double(metadata: { location: '2' }, execution_result: double(status: 'passed')) }
+    let(:exception) { double(class: double(name: nil), message: nil, backtrace: nil) }
+    let(:example1) { double(metadata: { location: '1' }, execution_result: double(status: 'passed'), exception: exception) }
+    let(:example2) { double(metadata: { location: '2' }, execution_result: double(status: 'passed'), exception: nil) }
     let(:examples) { [example1, example2] }
-    let(:before_json) { { '2' => {} } }
+    let(:before_json) { { '2' => [{}] } }
     let(:notification) { double(examples: examples) }
 
     before { allow(AirborneReport::Message).to receive(:extra).and_return(double(to_hash: {})) }
@@ -25,8 +26,8 @@ describe AirborneReport::Report do
             'pending' => 0
           },
           'tests' => {
-            '1' => {},
-            '2' => {}
+            '1' => {'exception' => {'class' => nil, 'message' => nil, 'backtrace' => nil}},
+            '2' => {'responses' => [{}]}
           }
 
         )
@@ -43,10 +44,10 @@ describe AirborneReport::Report do
   end
 
   describe '#to_hash' do
-    let(:example1) { double(metadata: { location: '1' }, execution_result: double(status: 'passed')) }
-    let(:example2) { double(metadata: { location: '2' }, execution_result: double(status: 'passed')) }
+    let(:example1) { double(metadata: { location: '1' }, execution_result: double(status: 'passed'), exception: nil) }
+    let(:example2) { double(metadata: { location: '2' }, execution_result: double(status: 'passed'), exception: nil) }
     let(:examples) { [example1, example2] }
-    let(:before_json) { { '2' => {} } }
+    let(:before_json) { { '2' => [{}] } }
     let(:notification) { double(examples: examples) }
 
     before { allow(AirborneReport::Message).to receive(:extra).and_return(double(to_hash: {})) }
@@ -66,7 +67,7 @@ describe AirborneReport::Report do
           },
           'tests' => {
             '1' => {},
-            '2' => {}
+            '2' => {'responses' => [{}]}
           }
 
         )

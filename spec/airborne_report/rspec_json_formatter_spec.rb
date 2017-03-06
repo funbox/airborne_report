@@ -4,12 +4,6 @@ require 'airborne_report/rspec_json_formatter'
 describe AirborneReport::RspecJsonFormatter do
   subject { described_class.new(nil) }
 
-  describe '#start' do
-    it 'not raise exception' do
-      expect { subject.start(nil) }.not_to raise_exception
-    end
-  end
-
   describe '#stop' do
     let(:report) { double(to_hash: {}) }
 

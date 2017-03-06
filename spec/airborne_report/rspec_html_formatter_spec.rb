@@ -4,12 +4,6 @@ require 'airborne_report/rspec_html_formatter'
 describe AirborneReport::RspecHtmlFormatter do
   subject { described_class.new(nil) }
 
-  describe '#start' do
-    it 'not raise exception' do
-      expect { subject.start(nil) }.not_to raise_exception
-    end
-  end
-
   describe '#stop' do
     let(:report) do
       double(

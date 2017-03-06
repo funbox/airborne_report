@@ -1,5 +1,6 @@
 require 'airborne_report/version'
 require 'airborne_report/message'
+require 'airborne_report/storage/tests'
 
 module AirborneReport
 end
@@ -29,18 +30,14 @@ module Airborne
 
     def full_save(response)
       request = response.request
-      AirborneReport::JsonFile.push(
-        location,
-        AirborneReport::Message.full(request, response).to_hash
-      )
+      AirborneReport::Storage::Tests.find_or_create(location)
+        .push(AirborneReport::Message.full(request, response).to_hash)
     end
 
     def wasted_save(args, response)
       url = get_url(args[1])
-      AirborneReport::JsonFile.push(
-        location,
-        AirborneReport::Message.wasted(args, response, url).to_hash
-      )
+      AirborneReport::Storage::Tests.find_or_create(location)
+        .push(AirborneReport::Message.wasted(args, response, url).to_hash)
     end
 
     def location
