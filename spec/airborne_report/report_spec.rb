@@ -26,7 +26,7 @@ describe AirborneReport::Report do
           },
           'tests' => {
             '1' => {},
-            '2' => {}
+            '2' => {'responses' => [{}]}
           }
 
         )
@@ -66,7 +66,7 @@ describe AirborneReport::Report do
           },
           'tests' => {
             '1' => {},
-            '2' => {}
+            '2' => {'responses' => [{}]}
           }
 
         )
