@@ -28,7 +28,7 @@ describe Airborne::RestClientRequester do
 
   context 'is RestClient::Response' do
     let(:stub_response) do
-      double(is_a?: true, request: double(method: nil, url: nil, headers: nil, args: nil), headers: nil)
+      double(is_a?: true, request: double(method: nil, url: nil, headers: nil, args: {payload: nil}), headers: nil)
     end
 
     before do

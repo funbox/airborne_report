@@ -8,7 +8,7 @@ describe AirborneReport::Message do
   end
 
   describe '.full' do
-    let(:request) { double(method: nil, url: nil, headers: nil, args: nil) }
+    let(:request) { double(method: nil, url: nil, headers: nil, args: {payload: nil}) }
     let(:response) { double(headers: nil) }
 
     before do

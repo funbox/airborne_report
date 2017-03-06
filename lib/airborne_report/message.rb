@@ -16,7 +16,7 @@ module AirborneReport
             'method' => request.method,
             'url' => request.url,
             'headers' => request.headers,
-            'body' => request.args
+            'body' => request.args[:payload]
           }
         }
       )
