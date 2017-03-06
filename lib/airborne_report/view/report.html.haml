@@ -21,7 +21,7 @@
       %details
         %summary{class: "collapse #{example.last['status']}"}
           = example.last['full_description']
-        %div
+        %div{class: 'group'}
           %div{class: 'section'}
             %div
               %b path:
@@ -29,42 +29,48 @@
 
           - if example.last['responses']
             - example.last['responses'].each do |response|
-              - if response['response'] && response['response']['request']
-                %div{class: 'section'}
-                  %div
-                    %b request.time:
-                    = response['time']
-                  %div
-                    %b request.method:
-                    = response['response']['request']['method']
-                  %div
-                    %b request.url:
-                    = response['response']['request']['url']
-                  %div
-                    %b request.headers:
-                    = response['response']['request']['headers']
-                  %div
-                    %b request.body:
-                    %xmp
-                      =response['response']['request']['body']
-              - if response['response']
-                %div{class: 'section'}
-                  %div
-                    %b response.headers:
-                    = response['response']['headers']
-                  %div
-                    %b response.body:
-                    %xmp
-                      = response['response']['body']
+              %div{class: 'group'}
+                - if response['response'] && response['response']['request']
+                  %div{class: 'section'}
+                    %div
+                      %b request.time:
+                      = response['time']
+                    %div
+                      %b request.method:
+                      = response['response']['request']['method']
+                    %div
+                      %b request.url:
+                      = response['response']['request']['url']
+                    %div
+                      %b request.headers:
+                      = response['response']['request']['headers']
+                    %div
+                      %b request.body:
+                      %xmp
+                        =response['response']['request']['body']
+                - if response['response']
+                  %div{class: 'section'}
+                    %div
+                      %b response.headers:
+                      = response['response']['headers']
+                    %div
+                      %b response.body:
+                      %xmp
+                        = response['response']['body']
 
           - if example.last['exception']
-            %div{class: 'section'}
+
+            %details
+              %summary{class: "collapse"}
+                = 'exception'
               %div
-                %b exception.class:
-                = example.last['exception']['class']
-              %div
-                %b exception.message:
-                = example.last['exception']['message']
-              %div
-                %b exception.backtrace:
-                = example.last['exception']['backtrace']
+                %div{class: 'group section'}
+                  %div
+                    %b exception.class:
+                    = example.last['exception']['class']
+                  %div
+                    %b exception.message:
+                    = example.last['exception']['message']
+                  %div
+                    %b exception.backtrace:
+                    = example.last['exception']['backtrace']
